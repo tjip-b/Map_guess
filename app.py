@@ -14,6 +14,7 @@ MAX_ATTEMPTS = 6
 HTML_TEMPLATE = '''
 <!doctype html>
 <title>Guess the City</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
   html, body {
@@ -21,6 +22,7 @@ HTML_TEMPLATE = '''
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 16px;
   }
   body {
     display: flex;
@@ -28,6 +30,8 @@ HTML_TEMPLATE = '''
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    font-family: system-ui, Arial, sans-serif;
+    background: #f8f8f8;
   }
   #map-container {
     flex: 1 1 auto;
@@ -36,12 +40,18 @@ HTML_TEMPLATE = '''
     justify-content: stretch;
     min-height: 0;
     min-width: 0;
+    max-width: 100vw;
+    max-height: 60vh;
   }
   #map {
     width: 100vw;
-    height: 100%;
+    height: 50vh;
+    min-height: 200px;
+    max-height: 60vh;
     flex: 1 1 auto;
     z-index: 1;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   #controls {
     flex: 0 0 auto;
@@ -49,10 +59,12 @@ HTML_TEMPLATE = '''
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px 0 8px 0;
-    background: #f8f8f8;
+    padding: 12px 0 8px 0;
+    background: #fff;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
     z-index: 2;
+    border-radius: 12px 12px 0 0;
+    margin-top: -12px;
   }
   #controls form, #controls .reset-btn {
     margin: 8px 0;
@@ -68,6 +80,48 @@ HTML_TEMPLATE = '''
   }
   .reset-btn:hover {
     background: #c0392b;
+  }
+  input[name="guess"] {
+    font-size: 1.1rem;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 70vw;
+    max-width: 320px;
+    margin-bottom: 6px;
+  }
+  button[type="submit"] {
+    font-size: 1.1rem;
+    padding: 6px 16px;
+    border-radius: 4px;
+    border: none;
+    background: #3498db;
+    color: #fff;
+    margin-left: 6px;
+    cursor: pointer;
+  }
+  button[type="submit"]:hover {
+    background: #217dbb;
+  }
+  @media (max-width: 600px) {
+    #map {
+      height: 38vh;
+      min-height: 120px;
+      max-height: 45vh;
+    }
+    #controls {
+      padding: 8px 0 4px 0;
+    }
+    input[name="guess"] {
+      width: 90vw;
+      max-width: 98vw;
+    }
+    h2 {
+      font-size: 1.2rem;
+    }
+    p, label, button, small {
+      font-size: 1rem;
+    }
   }
 </style>
 <h2 style="text-align:center; margin: 8px 0 0 0;">Guess the City!</h2>
@@ -291,3 +345,6 @@ def picklist():
         </form>
         <form action="/" method="get"><button type="submit">Back to Game</button></form>
         ''', options=LIST_OPTIONS)
+
+if __name__ == "__main__":
+    app.run(debug=True)
